@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "jm-emotiondiary-project",
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
