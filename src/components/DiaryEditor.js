@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DiaryDispatchContext } from "../App";
 import EmotionItem from "./EmotionItem";
@@ -6,7 +6,6 @@ import EmotionItem from "./EmotionItem";
 import MyButton from "./MyButton";
 import MyHeader from "./MyHeader";
 
-import { getStringDate } from "../util/date";
 import { emotionList } from "../util/emotion";
 
 const DiaryEditor = ({ isEdit, originData }) => {
@@ -14,7 +13,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   const [content, setContent] = useState("");
   const [emotion, setEmotion] = useState(3);
-  const [date, setDate] = useState(getStringDate(new Date()));
+  const [date, setDate] = useState(new Date());
 
   const navigate = useNavigate();
 
@@ -22,9 +21,9 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   // 선택한 감성의 상태 값 가지기
-  const handleClickEmote = (emotion) => {
+  const handleClickEmote = useCallback((emotion) => {
     setEmotion(emotion);
-  };
+  }, []);
 
   // 작성완료 클릭 함수
   const handleSubmit = () => {
@@ -56,7 +55,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   useEffect(() => {
     if (isEdit) {
-      setDate(getStringDate(new Date(parseInt(originData.date))));
+      setDate(new Date(parseInt(originData.date)));
       setEmotion(originData.emotion);
       setContent(originData.content);
     }
